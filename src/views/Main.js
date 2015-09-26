@@ -1,18 +1,26 @@
 import React from 'react';
-import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as CounterActions from 'actions/CounterActions';
 import Counter from 'components/Counter';
 
+import { addTodo } from "actions/TodoActions";
+import Todo from "models/Todo";
+
+import {Link} from "react-router";
+
 /**
  * Redux connecting to the Main React application entry-point for both the server and client.
  */
-@connect(state => ({
-  counter: state.counter,
-}))
-
-@Radium
+@connect(
+  state => ({
+    counter: state.counter,
+    todos: Object.values(state.Todo.items)
+  }),
+  dispatch => ({
+    dispatch
+  })
+)
 export default class Main extends React.Component {
   /**
    * Runs on server and client.
@@ -20,6 +28,11 @@ export default class Main extends React.Component {
   componentWillMount() {
 
   }
+
+  onAddTodo() {
+    this.props.dispatch(addTodo(new Todo({text: "hi"})));
+  }
+
   /**
    * Runs on server and client.
    */
@@ -35,6 +48,14 @@ export default class Main extends React.Component {
       <div>
         <h3>Redux counter</h3>
         <Counter counter={counter}  {...bindActionCreators(CounterActions, dispatch)} />
+        <Link to="/another">Test</Link>
+        <br />
+        <button onClick={this.onAddTodo.bind(this)}>New Todo</button>
+        {
+          this.props.todos.map( todo => {
+            return (<p key={Math.random()}>{todo.data.get("text")}</p>);
+          })
+        }
       </div>
     );
   }

@@ -1,13 +1,11 @@
-import React from "react";
-import App from 'App';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import App from 'containers/App';
 import 'isomorphic-fetch';
-
-injectTapEventPlugin();
+import React from "react";
+import ReactDOM from "react-dom";
 
 const initialState = JSON.parse(window.__reactTransmitPacket) || {};
 
-React.render(
+ReactDOM.render(
     <App initialState={initialState} />,
     document.getElementById('react-root')
 );
