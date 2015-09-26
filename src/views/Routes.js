@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route} from 'react-router';
-import AppContainer from 'containers/AppContainer';
 import Main from 'views/Main';
 
 /**
@@ -9,7 +8,5 @@ import Main from 'views/Main';
  * @class Routes
  */
 export default (
-	<Route handler={AppContainer}>
-		<Route path="/" name="main" handler={Main} />
-	</Route>
+    <Route path="/" component={Main} />
 );

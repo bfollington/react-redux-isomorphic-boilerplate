@@ -12,6 +12,6 @@ export default function counter(state = initialState, action) {
   case COUNTER_MINUS:
     return state - 1;
   default:
-    return initialState;
+    return state;
   }
 }

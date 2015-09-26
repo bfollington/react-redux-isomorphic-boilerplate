@@ -23,7 +23,7 @@ module.exports = {
 	module:  {
 		loaders: [
 			{include: /\.json$/, loaders: ["json-loader"]},
-			{include: /\.js$/, loaders: ["babel-loader?stage=0&optional=runtime&plugins=typecheck"], exclude: /node_modules/}
+			{include: /\.(js|jsx)$/, loaders: ["babel-loader?stage=0&optional=runtime&plugins=typecheck"], exclude: /node_modules/}
 		]
 	},
 	resolve: {
@@ -32,7 +32,7 @@ module.exports = {
 			"node_modules",
 			"web_modules"
 		],
-		extensions: ["", ".json", ".js"]
+		extensions: ["", ".json", ".js", ".jsx"]
 	},
 	node:    {
 		__dirname: true,

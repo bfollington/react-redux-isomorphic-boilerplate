@@ -1,17 +1,16 @@
-import Router from 'react-router';
-import Transmit from 'react-transmit';
-import routes from 'views/Routes';
-
+import React from "react";
+import App from 'App';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import 'isomorphic-fetch';
+
 injectTapEventPlugin();
 
-/**
- * Fire-up React Router.
- */
-Router.run(routes, Router.HistoryLocation, (Handler) => {
-  const initialState = window.__reactTransmitPacket || {};
-  Transmit.render(Handler, {initialState}, document.getElementById('react-root'));
-});
+const initialState = JSON.parse(window.__reactTransmitPacket) || {};
+
+React.render(
+    <App initialState={initialState} />,
+    document.getElementById('react-root')
+);
 
 /**
  * Detect whether the server-side render has been discarded due to an invalid checksum.
