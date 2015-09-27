@@ -1,10 +1,12 @@
+import initDb from "db";
 import {Server} from 'hapi';
+import 'isomorphic-fetch';
 import * as reducers from 'reducers';
 import { createStore, combineReducers } from 'redux';
 
 import serverSideRender from "server/serverSideRender";
 
-import 'isomorphic-fetch';
+initDb();
 
 /**
  * Start Hapi server on port 8000.
