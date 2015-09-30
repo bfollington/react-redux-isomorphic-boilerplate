@@ -8,6 +8,10 @@ import good from "good";
 
 import serverSideRender from "server/serverSideRender";
 
+import api from "api/api";
+
+api(controllers);
+
 var db = initDb();
 
 /**
