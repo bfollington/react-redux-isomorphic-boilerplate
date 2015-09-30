@@ -2,21 +2,48 @@ import initDb from "db";
 import {Server} from 'hapi';
 import 'isomorphic-fetch';
 import * as reducers from 'reducers';
+import * as controllers from 'server/controllers';
 import { createStore, combineReducers } from 'redux';
+import good from "good";
 
 import serverSideRender from "server/serverSideRender";
 
-initDb();
+var db = initDb();
 
 /**
  * Start Hapi server on port 8000.
  */
 const server = new Server();
 server.connection({port: process.env.PORT || 8000});
-server.start(() => {
-  console.info('==> ✅  Server is listening');
-  console.info('==> 🌎  Go to ' + server.info.uri.toLowerCase());
+
+server.register({
+    register: good,
+    options: {
+        reporters: [{
+            reporter: require('good-console'),
+            events: {
+                response: '*',
+                log: '*'
+            }
+        }]
+    }
+}, function (err) {
+    if (err) {
+        throw err; // something bad happened loading the plugin
+    }
+
+    server.start(function () {
+        console.log('==> ✅  Server is listening');
+        console.log('==> 🌎  Go to ' + server.info.uri.toLowerCase());
+    });
 });
+
+for (var controller in controllers) {
+  console.log("==> Registered", controller, "controller")
+  for (var route in controllers[controller]) {
+    server.route(controllers[controller][route]);
+  }
+}
 
 /**
  * Attempt to serve static requests from the public folder.

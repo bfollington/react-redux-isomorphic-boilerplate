@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
+import {settings} from "db";
 
 export default function(sequelize) {
-    var User = sequelize.define('user',
+    global.db.User = sequelize.define('user',
         {
             firstName: {
                 type: Sequelize.STRING,
@@ -16,14 +17,12 @@ export default function(sequelize) {
         }
     );
 
-    User.sync({force: true}).then(() => {
+    db.User.sync({force: settings.force}).then(() => {
 
         // Table created
-        var user = User.create({
+        var user = db.User.create({
             firstName: 'John',
             lastName: 'Hancock'
-        }).then( user => {
-            console.log(user.toJSON());
         });
 
     });
